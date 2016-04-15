@@ -23,7 +23,7 @@ class FileSpliter {
 
 
     public FileSpliter(File dataFile, String tempDir, Comparator<String> comparator)
-            throws FileNotFoundException, UnsupportedEncodingException {
+            throws IOException {
         this.dataFile = dataFile;
         this.tempDir = tempDir;
         this.comparator = comparator;
