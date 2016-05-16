@@ -20,22 +20,32 @@ public class FileIOUtil {
 
     public static BufferedWriter getBufferedWriter(File file)
             throws IOException {
+        writeTargetCheck(file);
         return new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "utf-8"));
     }
 
     public static BufferedWriter getBufferedWriter(String filePath)
             throws IOException {
-        return new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePath), "utf-8"));
+        return getBufferedWriter(new File(filePath));
     }
 
     public static BufferedWriter getBufferedWriterAppend(File file)
             throws IOException {
+        writeTargetCheck(file);
         return new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), "utf-8"));
     }
 
     public static BufferedWriter getBufferedWriterAppend(String filePath)
             throws IOException {
-        return new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePath, true), "utf-8"));
+        return getBufferedWriterAppend(new File(filePath));
+    }
+
+    private static void writeTargetCheck(File writeTarget) {
+        if (writeTarget.getParentFile() != null) {
+            if (!writeTarget.getParentFile().isDirectory()) {
+                writeTarget.getParentFile().mkdirs();
+            }
+        }
     }
 
 }
