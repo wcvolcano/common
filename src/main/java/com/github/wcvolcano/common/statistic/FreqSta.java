@@ -46,6 +46,7 @@ public class FreqSta<K extends Comparable<K>> {
 
     public String staString(String token) {
         Map<K, Weight> map = groupWeight.get(token);
+        if(map == null) return "";
         StringBuilder builder = new StringBuilder();
 
         for (Map.Entry<K, Weight> entry : map.entrySet()) {
@@ -53,6 +54,15 @@ public class FreqSta<K extends Comparable<K>> {
                     .append(GsonWriter.toJson(entry.getValue().calPercent())).append("\n");
         }
 
+        return builder.toString();
+    }
+
+    public String staAllString() {
+        StringBuilder builder = new StringBuilder();
+        for (String token : tokens) {
+            builder.append("============").append(token).append("============");
+            builder.append(staString(token)).append("\n");
+        }
         return builder.toString();
     }
 
