@@ -44,6 +44,18 @@ public class FreqSta<K extends Comparable<K>> {
                 .forEach(Weight::calPercent);
     }
 
+    public String staString(String token) {
+        Map<K, Weight> map = groupWeight.get(token);
+        StringBuilder builder = new StringBuilder();
+
+        for (Map.Entry<K, Weight> entry : map.entrySet()) {
+            builder.append(entry.getKey()).append(",")
+                    .append(GsonWriter.toJson(entry.getValue().calPercent())).append("\n");
+        }
+
+        return builder.toString();
+    }
+
     public void write(BufferedWriter writer, String token) throws IOException {
         Map<K, Weight> map = groupWeight.get(token);
         for (Map.Entry<K, Weight> entry : map.entrySet()) {

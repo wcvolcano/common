@@ -15,6 +15,7 @@ import java.util.List;
 public class SortedArrayList<E> extends ArrayList<E> {
     private Comparator<? super E> comparator;
 
+
     //only legal constructor
 
     /**
@@ -123,6 +124,10 @@ public class SortedArrayList<E> extends ArrayList<E> {
         int disToCeiling = comparator.compare(get(ceiling), target);
         if (disToFloor <= disToCeiling) return floor;
         return ceiling;
+    }
+
+    public SortedArrayList<E> copy() {
+        return new SortedArrayList<>(this, true, comparator);
     }
 
 }
