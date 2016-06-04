@@ -60,7 +60,7 @@ public class FreqSta<K extends Comparable<K>> {
     public String staAllString() {
         StringBuilder builder = new StringBuilder();
         for (String token : tokens) {
-            builder.append("============").append(token).append("============");
+            builder.append("============").append(token).append("============\n");
             builder.append(staString(token)).append("\n");
         }
         return builder.toString();
