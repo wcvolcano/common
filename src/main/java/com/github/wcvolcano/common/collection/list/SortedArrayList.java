@@ -1,9 +1,6 @@
 package com.github.wcvolcano.common.collection.list;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by canwen on 2016/4/23.
@@ -13,34 +10,33 @@ import java.util.List;
  * *. ordered --> random access by position
  */
 public class SortedArrayList<E> extends ArrayList<E> {
+    public interface Measurement<T> {
+        double disTo(T o1, T o2);
+    }
+
     private Comparator<? super E> comparator;
+    private Measurement<? super E> measurement;
 
 
-    //only legal constructor
+    public SortedArrayList(List<? extends E> list, boolean sorted, Measurement<? super E> measurement) {
+        this.measurement = measurement;
 
-    /**
-     *
-     * @param list literal meaning, initial list.
-     * @param sorted true if the initial list is sorted consistent with comparator.
-     * @param comparator more than a common comparator, it's return value has special meaning,
-     *                   int cmp = comparator.compare(former, later)
-     *                   cmp represent the distance between former and later.
-     *                   and cmp>0 means later is bigger and versus.
-     */
-    public SortedArrayList(List<? extends E> list, boolean sorted, Comparator<? super E> comparator) {
+        this.comparator = (o1, o2) -> {
+            double dis = measurement.disTo(o1, o2);
+            if(dis > 0) return 1;
+            if(dis < 0) return -1;
+            return 0;
+        };
+
         if (!sorted) {
             Collections.sort(list, comparator);
         }
         super.addAll(list);
-        this.comparator = comparator;
     }
 
     //need for gson parse
     public SortedArrayList() {
         super();
-    }
-    public void setComparator(Comparator<? super E> comparator) {
-        this.comparator = comparator;
     }
 
     //valid methods
@@ -120,14 +116,20 @@ public class SortedArrayList<E> extends ArrayList<E> {
         if (ceiling == 0) return 0;
 
         int floor = ceiling - 1;
-        int disToFloor = comparator.compare(target, get(floor));
-        int disToCeiling = comparator.compare(get(ceiling), target);
+        double disToFloor = measurement.disTo(target, get(floor));
+        double disToCeiling = measurement.disTo(get(ceiling), target);
         if (disToFloor <= disToCeiling) return floor;
         return ceiling;
     }
 
     public SortedArrayList<E> copy() {
-        return new SortedArrayList<>(this, true, comparator);
+        return new SortedArrayList<>(this, true, measurement);
     }
 
+    @Override
+    public boolean add(E e) {
+        int index = floor(e) + 1;
+        add(index, e);
+        return true;
+    }
 }
