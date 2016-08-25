@@ -7,12 +7,7 @@ import java.util.List;
  * Created by wencan on 2015/6/16.
  */
 public class ComparatorFactory {
-    public static Comparator<String> DEFAULTCOMPARATOR = new Comparator<String>() {
-        @Override
-        public int compare(String o1, String o2) {
-            return o1.compareTo(o2);
-        }
-    };
+    public static Comparator<String> DEFAULT_COMPARATOR = String::compareTo;
 
     public static Comparator<String> generator(List<String[]> list, char delimiter) {
         Comparator<String> comparator = new SortByNull();

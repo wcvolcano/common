@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class FileSort {
     public static void sort(Comparator<String> comparator,
-                             File dataFile, File outFile, String tempDir) throws IOException {
+                            File dataFile, File outFile, String tempDir) throws IOException {
         List<File> fileList = new FileSpliter(dataFile, tempDir, comparator).fileSplit();
         new FileMerger(fileList, outFile, comparator);
     }
@@ -25,11 +25,18 @@ public class FileSort {
         new FileMerger(fileList, outFile, comparator);
     }
 
+    public static void sort(int busIdPos, File dataFile, File outFile, String tempDir) {
+        String[] args = new String[]{dataFile.getAbsolutePath(), outFile.getAbsolutePath(), "-s", busIdPos + "",
+                "-t", "" + tempDir};
+        main(args);
+    }
+
+
     public static void main(String[] args) {
         String tempDir = null;
         File dataFile;
         File outFile;
-        char delimiter=',';
+        char delimiter = ',';
         List<String[]> list = new ArrayList<>();
 
         boolean delimiterFlag = false;
@@ -61,9 +68,15 @@ public class FileSort {
             Comparator<String> comparator;
 
             if (!delimiterFlag) {
-                comparator = ComparatorFactory.DEFAULTCOMPARATOR;
+                delimiter = ',';
+            }
+
+            if (list.isEmpty()) {
+                comparator = ComparatorFactory.DEFAULT_COMPARATOR;
                 System.out.println("warning: use String.compare() comparator");
-            } else comparator = ComparatorFactory.generator(list, delimiter);
+            } else {
+                comparator = ComparatorFactory.generator(list, delimiter);
+            }
 
             sort(comparator, dataFile, outFile, tempDir);
 
