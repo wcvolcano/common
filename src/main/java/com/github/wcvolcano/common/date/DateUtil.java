@@ -50,13 +50,13 @@ public class DateUtil {
 
     /**
      * 根据yyyy-MM-dd HH:mm:ss将字符串解析为long类型数据
-     * @param formatTime format with yyyy-MM-dd HH:mm:ss
+     * @param formatTime defaultFormat with yyyy-MM-dd HH:mm:ss
      * @return time in long millis
      * @throws ParseException
      */
+    private static final String defaultFormat = "yyyy-MM-dd HH:mm:ss";
     public static long parseFormateTime(String formatTime) throws ParseException {
-        String format = "yyyy-MM-dd HH:mm:ss";
-        DateFormat dateFormat = new SimpleDateFormat(format);
+        DateFormat dateFormat = new SimpleDateFormat(defaultFormat);
         return dateFormat.parse(formatTime).getTime();
     }
 

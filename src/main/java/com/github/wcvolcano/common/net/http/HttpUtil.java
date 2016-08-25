@@ -2,16 +2,16 @@ package com.github.wcvolcano.common.net.http;
 
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 
 /**
  * Created by wencan on 2015/2/26.
  * 处理网络传输信息相关，由于没有新开线程，在调用时需要新开线程
  */
 public class HttpUtil {
-
-//    private static final int timeRequest = 60 * 1000;
-
     public static void getHttpRequest(final String address,
                                       final HttpCallbackListener listener,
                                       final int timeRequest) {
@@ -96,5 +96,12 @@ public class HttpUtil {
             }
         }
 
+    }
+
+    public static void download(String url, File localFile) throws IOException {
+        URL website = new URL(url);
+        ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+        FileOutputStream fos = new FileOutputStream(localFile);
+        fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
     }
 }

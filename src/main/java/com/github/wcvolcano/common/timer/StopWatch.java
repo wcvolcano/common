@@ -8,27 +8,53 @@ public class StopWatch {
     long start;
     long end;
 
+    long lastStart;
+    long period;
+
+    boolean isEnd = false;
+
     public StopWatch(String name) {
         this.name = name;
         start = System.currentTimeMillis();
+        lastStart = start;
     }
 
     public StopWatch() {
         start = System.currentTimeMillis();
+        lastStart = start;
     }
 
     public long consumeInSecond() {
-        end = System.currentTimeMillis();
-        return (end - start) / 1000;
+        end();
+        return period / 1000;
     }
 
     public long consumeInMinute() {
-        end = System.currentTimeMillis();
-        return (end - start) /1000 / 60;
+        end();
+        return period / 1000 / 60;
     }
 
+    public void pause() {
+        if(isEnd) return;
+        period += System.currentTimeMillis() - lastStart;
+        isEnd = true;
+    }
+
+    public void resume() {
+        isEnd = false;
+        lastStart = System.currentTimeMillis();
+    }
+
+
     public long consume() {
-        return System.currentTimeMillis() - start;
+        end();
+        return period;
+    }
+
+    public void end() {
+        if(!isEnd) {
+            pause();
+        }
     }
 
     public long getStart() {

@@ -19,14 +19,11 @@ public class BoundedExcutor {
     public void submitTask(final Runnable command) throws InterruptedException {
         semaphore.acquire();
         try {
-            executor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        command.run();
-                    } finally {
-                        semaphore.release();
-                    }
+            executor.execute(() -> {
+                try {
+                    command.run();
+                } finally {
+                    semaphore.release();
                 }
             });
         } catch (RejectedExecutionException e) {
