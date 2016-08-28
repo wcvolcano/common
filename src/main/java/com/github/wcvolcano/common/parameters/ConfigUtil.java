@@ -1,11 +1,6 @@
 package com.github.wcvolcano.common.parameters;
 
-import com.github.wcvolcano.common.file.io.FileIOUtil;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -39,17 +34,23 @@ public class ConfigUtil {
         return properties;
     }
 
-    public static Map<String, String> getParameters(String configFile) throws IOException {
+    public static Map<String, String> getParameters(File configFile) throws IOException {
+        return getParameters(new FileInputStream(configFile));
+    }
+
+    public static Map<String, String> getParameters(InputStream is) throws IOException {
         List<String> ignore = new ArrayList<>();
         ignore.add("//");
         ignore.add("#");
-        return getParameters(configFile, ignore);
+        return getParameters(is, ignore);
     }
 
-    public static Map<String, String> getParameters(String configFile, List<String> ignoreLine) throws IOException {
+
+
+    public static Map<String, String> getParameters(InputStream inputStream, List<String> ignoreLine) throws IOException {
         Map<String, String> result = new HashMap<>();
 
-        BufferedReader reader = FileIOUtil.getBufferedReader(configFile);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"));
         String aline;
         while ((aline = reader.readLine()) != null) {
             aline = aline.trim();
