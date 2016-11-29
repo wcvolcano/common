@@ -36,4 +36,24 @@ public class UDPReceiver {
         t.start();
     }
 
+    public static void main(String[] args) {
+        int port = Integer.parseInt(args[0]);
+        System.out.println("start receive port " + port);
+        startReceiver(port, new UDPDataHandler() {
+            int count = 0;
+            @Override
+            public void handle(byte[] data) {
+                System.out.println((++count) + " " + new String(data));
+            }
+            @Override
+            public void handleSocketException(SocketException ex) {
+
+            }
+            @Override
+            public void handleIOException(IOException ex) {
+
+            }
+        });
+    }
+
 }

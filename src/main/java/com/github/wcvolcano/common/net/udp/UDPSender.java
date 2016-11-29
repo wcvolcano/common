@@ -40,4 +40,18 @@ public class UDPSender {
             e.printStackTrace();
         }
     }
+
+    public static void main(String[] args) throws InterruptedException {
+        String ipPort = "120.26.122.191:20212";
+        String msg = "hello world";
+        int count = 0;
+
+        UDPSender sender = new UDPSender(ipPort);
+        while (true) {
+            sender.send((count + " " + msg).getBytes());
+            System.out.println("send " + count);
+            Thread.sleep(100);
+            ++count;
+        }
+    }
 }

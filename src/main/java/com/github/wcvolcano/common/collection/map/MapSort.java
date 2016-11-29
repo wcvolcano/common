@@ -20,4 +20,12 @@ public class MapSort {
 
        return list;
    }
+
+    public static <K, V> List<Map.Entry<K, V>> mapSortByValue(Map<K, V> map, Comparator<Map.Entry<K, V>> comparator) {
+        List<Map.Entry<K, V>> list = new ArrayList<>(map.entrySet());
+
+        Collections.sort(list, comparator);
+
+        return list;
+    }
 }

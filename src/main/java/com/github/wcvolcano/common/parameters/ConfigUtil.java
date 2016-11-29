@@ -7,6 +7,22 @@ import java.util.*;
  * Created by wencan on 2015/5/4.
  */
 public class ConfigUtil {
+    /**
+     * 惯用法： main() 参数的形式为 key=parameter
+     * example:
+     * json=json=E:\data\station_cluster\045_9036.csv
+     * @param args
+     * @return
+     */
+    public static Map<String, String> argsParse(String[] args) {
+        Map<String, String> result = new HashMap<>();
+        for (String arg : args) {
+            String[] tags = arg.split("=");
+            result.put(tags[0], tags[1]);
+        }
+        return result;
+    }
+
     public static Properties getProperties(Class cla, String... fileName) {
         Properties properties = new Properties();
         File jarPath = new File(cla.getProtectionDomain().getCodeSource().getLocation().getPath());
