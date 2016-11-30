@@ -47,7 +47,11 @@ public class ExcelHelper {
         cell.setCellStyle(style);
     }
 
-    public static void setMultiLen(Sheet sheet, int column ,int multi) {
-        sheet.setColumnWidth(column, multi*sheet.getColumnWidth(column));
+    public static void setMultiLen(Sheet sheet, int column ,int factor) {
+        sheet.setColumnWidth(column, factor*sheet.getColumnWidth(column));
+    }
+
+    public static void setMultiHeight(Sheet sheet, int row, int factor) {
+        sheet.getRow(row).setHeightInPoints(factor*sheet.getDefaultRowHeightInPoints());
     }
 }
