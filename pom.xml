@@ -61,18 +61,6 @@
         </dependency>
     </dependencies>
 
-    <distributionManagement>
-        <repository>
-            <id>maven-releases</id>
-            <name>yg repository for releases</name>
-            <url>http://114.215.243.66:8081/repository/maven-releases</url>
-        </repository>
-        <snapshotRepository>
-            <id>maven-snapshots</id>
-            <name>yg repository for snapshots</name>
-            <url>http://114.215.243.66:8081/repository/maven-snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
 
 
 </project>
