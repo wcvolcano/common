@@ -15,14 +15,6 @@ public class CacheList<T>{
         this.capacity = capacity;
     }
 
-    public CacheList() {
-        this.capacity = 10;
-        ArrayList<Integer> arrayList = new ArrayList<>();
-        arrayList.add(5);
-    }
-
-
-
     public boolean add(T t) {
         list.add(t);
         if (list.size() > capacity * 2) {
