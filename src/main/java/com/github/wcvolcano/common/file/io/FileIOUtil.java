@@ -10,12 +10,12 @@ public class FileIOUtil {
 
     public static BufferedReader getBufferedReader(File file)
             throws IOException {
-        return new BufferedReader(new InputStreamReader(new FileInputStream(file), "utf-8"));
+        return new LineNumberReader(new InputStreamReader(new FileInputStream(file), "utf-8"));
     }
 
     public static BufferedReader getBufferedReader(String filePath)
             throws IOException {
-        return new BufferedReader(new InputStreamReader(new FileInputStream(filePath), "utf-8"));
+        return new LineNumberReader(new InputStreamReader(new FileInputStream(filePath), "utf-8"));
     }
 
     public static BufferedWriter getBufferedWriter(File file)
