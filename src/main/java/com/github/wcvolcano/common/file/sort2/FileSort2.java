@@ -111,14 +111,13 @@ public class FileSort2 {
             List<String> piece = new ArrayList<>();
             while (true) {
                 String aline = reader.readLine();
-                aline = contentTransform.apply(aline);
                 if (aline == null) {
                     if (!piece.isEmpty()) {
                         result.add(saveAndSort(piece));
                     }
                     break;
                 }
-
+                aline = contentTransform.apply(aline);
                 piece.add(aline);
 
                 memory += aline.length() * 2 + 16;
