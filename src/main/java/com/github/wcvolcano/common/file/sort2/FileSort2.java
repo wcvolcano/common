@@ -1,6 +1,7 @@
 package com.github.wcvolcano.common.file.sort2;
 
 import com.github.wcvolcano.common.file.io.FileIOUtil;
+import org.apache.logging.log4j.LogManager;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -172,6 +173,7 @@ public class FileSort2 {
         }
 
         public void merge(List<File> files) throws IOException {
+            if(sortedTargetFile.exists()) sortedTargetFile.delete();
             if (files.isEmpty()) return;
             else if (files.size() == 1) {
                 File file = files.get(0);
