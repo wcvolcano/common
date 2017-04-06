@@ -1,7 +1,6 @@
 package com.github.wcvolcano.common.file.sort2;
 
 import com.github.wcvolcano.common.file.io.FileIOUtil;
-import org.apache.logging.log4j.LogManager;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -45,8 +44,8 @@ public class FileSort2 {
     }
 
     public static FileSort2 create(File inputDataFile, File sortedTargetFile, File tempMiddleResultDir) {
-        if(sortedTargetFile == null) sortedTargetFile = defaultSortedTargeFile(inputDataFile);
-        if(tempMiddleResultDir == null) tempMiddleResultDir = defaultTempMiddleDir(inputDataFile);
+        if (sortedTargetFile == null) sortedTargetFile = defaultSortedTargeFile(inputDataFile);
+        if (tempMiddleResultDir == null) tempMiddleResultDir = defaultTempMiddleDir(inputDataFile);
         if (sortedTargetFile.equals(inputDataFile)) {
             throw new IllegalArgumentException("outFile can not be equals to inputFile");
         }
@@ -152,11 +151,13 @@ public class FileSort2 {
 
     private class FileMerge {
         class FileWrapper {
+            int order;
             File file;
             String aline;
             BufferedReader reader;
 
-            public FileWrapper(File file) throws IOException {
+            public FileWrapper(int order, File file) throws IOException {
+                this.order = order;
                 this.file = file;
                 this.reader = FileIOUtil.getBufferedReader(file);
                 nextLine();
@@ -173,7 +174,7 @@ public class FileSort2 {
         }
 
         public void merge(List<File> files) throws IOException {
-            if(sortedTargetFile.exists()) sortedTargetFile.delete();
+            if (sortedTargetFile.exists()) sortedTargetFile.delete();
             if (files.isEmpty()) return;
             else if (files.size() == 1) {
                 File file = files.get(0);
@@ -181,9 +182,14 @@ public class FileSort2 {
                 return;
             }
 
-            PriorityQueue<FileWrapper> queue = new PriorityQueue<>((o1, o2) -> comparator.compare(o1.aline, o2.aline));
-            for (File file : files) {
-                queue.add(new FileWrapper(file));
+            PriorityQueue<FileWrapper> queue = new PriorityQueue<>((o1, o2) -> {
+                int cmp = comparator.compare(o1.aline, o2.aline);
+                if (cmp == 0) return (o1.order - o2.order);
+                return cmp;
+            });
+
+            for (int i = 0; i < files.size(); ++i) {
+                queue.add(new FileWrapper(i, files.get(i)));
             }
 
             BufferedWriter writer = FileIOUtil.getBufferedWriter(sortedTargetFile);
