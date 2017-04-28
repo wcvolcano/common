@@ -1,4 +1,4 @@
-package com.github.wcvolcano.common.filesort;
+package com.github.wcvolcano.common.file;
 
 import com.github.wcvolcano.common.file.sort.sorter.FileSort;
 import com.github.wcvolcano.common.file.sort2.FileSort2;

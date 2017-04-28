@@ -1,4 +1,4 @@
-package com.github.wcvolcano.common.filesort;
+package com.github.wcvolcano.common.file;
 
 import java.util.PriorityQueue;
 

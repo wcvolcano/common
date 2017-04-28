@@ -1,4 +1,4 @@
-package com.github.wcvolcano.common.filesort;
+package com.github.wcvolcano.common.file;
 
 import com.github.wcvolcano.common.file.io.FileIOUtil;
 import com.github.wcvolcano.common.timer.StopWatch;
